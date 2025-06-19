@@ -9,31 +9,49 @@ namespace BL
 {
     public class Materia
     {
-        public static void Add()
+
+        public static ML.Result Add(ML.Materia materia)
         {
-            // Liberar recursos
-            // Importar namespaces
-            using (SqlConnection context = new SqlConnection("Data Source=.;Initial Catalog=EArredondoProgramacionNCapasJunio;User ID=sa;Password=pass@word1;Encrypt=False"))
+            ML.Result result = new ML.Result(); //instancia-objeto
+
+            try
             {
-                string Nombre = "Prueba";
-                byte Creditos = 140;
-                decimal Costo = 200;
+                using (SqlConnection context = new SqlConnection(DL.Connnection.Get()))
+                {
+                    string Query = "INSERT INTO Materia (Nombre, Creditos, Costo) VALUES (@Nombre, @Creditos, @Costo)";
 
-                string query = "INSERT INTO Materia (Nombre, Creditos, Costo) VALUES (@Nombre, @Creditos, @Costo)";
+                    SqlCommand cmd = new SqlCommand();
 
-                SqlCommand cmd = new SqlCommand(query, context);
-                //SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = query;
-                cmd.Connection = context;
+                    cmd.CommandText = Query;
+                    cmd.Connection = context;
 
-                cmd.Parameters.AddWithValue("@Nombre", Nombre);
-                cmd.Parameters.AddWithValue("@Creditos", Creditos);
-                cmd.Parameters.AddWithValue("@Costo", Costo);
+                    cmd.Parameters.AddWithValue("@Nombre", materia.Nombre);
+                    cmd.Parameters.AddWithValue("@Creditos", materia.Creditos);
+                    cmd.Parameters.AddWithValue("@Costo", materia.Costo);
 
-                context.Open();
+                    context.Open();
 
-                cmd.ExecuteNonQuery();
+                    int RowsAffected = cmd.ExecuteNonQuery();
+
+                    if(RowsAffected > 0 )
+                    {
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
+                
+            }            
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+
             }
+
+            return result;
         }
 
     }

@@ -4,13 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PL
+namespace BL
 {
-    internal class Program
+    internal class Grupo
     {
-        static void Main(string[] args)
-        {
-            PL.Materia.Add(); //F12
-        }
     }
 }
