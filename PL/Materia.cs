@@ -13,9 +13,9 @@ namespace PL
         {
             ML.Result result = BL.Materia.GetAll();
 
-            if(result.Correct)
-            { 
-                foreach(ML.Materia materia in result.Objects)
+            if (result.Correct)
+            {
+                foreach (ML.Materia materia in result.Objects)
                 {
                     Console.WriteLine("\n");
                     Console.WriteLine("\n IdMateria: " + materia.IdMateria);
@@ -25,6 +25,24 @@ namespace PL
                 }
             }
         }
+
+        public static void GetById()
+        {
+
+            ML.Result result = BL.Materia.GetById(2);
+
+            if (result.Correct)
+            {
+                //primitivos , complejos
+                Console.WriteLine("\n");
+                Console.WriteLine("\n IdMateria: " + ((ML.Materia)result.Object).IdMateria); //unboxing
+                Console.WriteLine("\n Nombre: " + ((ML.Materia)result.Object).Nombre);
+                Console.WriteLine("\n Creditos: " + ((ML.Materia)result.Object).Creditos);
+                Console.WriteLine("\n Costo: " + ((ML.Materia)result.Object).Costo);
+
+            }
+        }
+
         public static void Add()
         {
             ML.Materia materia = new ML.Materia();
