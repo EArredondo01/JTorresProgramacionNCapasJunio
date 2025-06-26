@@ -56,8 +56,11 @@ namespace PL
             Console.WriteLine("Ingresa el costo");
             materia.Costo = Convert.ToDecimal(Console.ReadLine());
 
+            //materia.Semestre = new ML.Semestre();
+            materia.Semestre.IdSemestre = Convert.ToByte(Console.ReadLine()); //SET
 
-            ML.Result result = BL.Materia.Add(materia);
+            //ML.Result result = BL.Materia.Add(materia);
+            ML.Result result = BL.Materia.AddEF(materia);
 
             if (result.Correct)
             {

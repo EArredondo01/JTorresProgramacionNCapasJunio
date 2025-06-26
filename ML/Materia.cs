@@ -8,15 +8,12 @@ namespace ML
 {
     public class Materia
     {
-
-        // Get
-        // Obetenerlos datos
-
-        // Set 
-        // Establecer un nuevo a esa propiedad.
+     
         public int IdMateria { get; set; }
         public string Nombre { get; set; }
         public byte Creditos { get; set; }
         public decimal Costo { get; set; }
+
+        public ML.Semestre Semestre { get; set; }
     }
 }

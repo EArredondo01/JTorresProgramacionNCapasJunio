@@ -76,7 +76,7 @@ namespace BL
         }
 
 
-      
+
         public static ML.Result GetById(int IdMateria)
         {
 
@@ -118,6 +118,9 @@ namespace BL
                         materia.Nombre = row[1].ToString();
                         materia.Creditos = Convert.ToByte(row[2].ToString());
                         materia.Costo = Convert.ToDecimal(row[3].ToString());
+
+                        materia.Semestre = new ML.Semestre();
+                        materia.Semestre.IdSemestre = Convert.ToByte(row[4]);
 
                         result.Object = materia; //Boxing       //unboxing 
 
@@ -165,6 +168,7 @@ namespace BL
                     cmd.Parameters.AddWithValue("@Nombre", materia.Nombre);
                     cmd.Parameters.AddWithValue("@Creditos", materia.Creditos);
                     cmd.Parameters.AddWithValue("@Costo", materia.Costo);
+                    cmd.Parameters.AddWithValue("@IdSemestre", materia.Semestre.IdSemestre); //GET
 
                     context.Open();
 
@@ -236,6 +240,37 @@ namespace BL
             }
 
             return result;
+        }
+
+
+        public static ML.Result AddEF(ML.Materia materia)
+        {
+            //ORACLE, MYSQL, OLEDB, SQL,  
+
+            ML.Result result = new ML.Result(); //instancia-objeto
+            try
+            { //LINQ
+                using (DL_EF.JTorresProgramacionNCapasJunioEntities context = new DL_EF.JTorresProgramacionNCapasJunioEntities())
+                {
+                    var resultQuery = context.MateriaAdd(materia.Nombre, materia.Creditos, materia.Costo);
+
+                    if (resultQuery > 0)
+                    {
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+            }
+          
+
         }
     }
 }
