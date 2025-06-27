@@ -269,8 +269,44 @@ namespace BL
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
             }
-          
 
+            return result;
+        }
+
+        public static ML.Result GetByIdEF(int IdMateria)
+        {
+
+            ML.Result result = new ML.Result(); //instancia-objeto
+
+            try
+            { 
+                using (DL_EF.JTorresProgramacionNCapasJunioEntities context = new DL_EF.JTorresProgramacionNCapasJunioEntities())
+                {
+                    var resultQuery = context.MateriaGetById(IdMateria).FirstOrDefault();
+
+                    if (resultQuery != null)
+                    {
+                        ML.Materia materia = new ML.Materia();
+                        materia.IdMateria = resultQuery.IdMateria;
+                        materia.Nombre = resultQuery.Nombre;
+                        materia.Creditos = resultQuery.Creditos.Value;
+                        
+                        result.Object = materia;
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
         }
     }
 }
