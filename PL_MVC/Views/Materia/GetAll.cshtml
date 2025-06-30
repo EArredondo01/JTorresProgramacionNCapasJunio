@@ -1,0 +1,43 @@
+﻿@model ML.Materia
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>IdMateria</th>
+                        <th>Nombre</th>
+                        <th>Creditos</th>
+                        <th>Costo</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (ML.Materia materia in Model.Materias)
+                    {
+                        <tr>
+                            <td>@materia.IdMateria</td>
+                            <td>@materia.Nombre</td>
+                            <td>@materia.Creditos</td>
+                            <td>@materia.Costo</td>
+                        </tr>
+                    }
+
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+</div>

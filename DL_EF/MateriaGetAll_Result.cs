@@ -14,7 +14,7 @@ namespace DL_EF
     public partial class MateriaGetAll_Result
     {
         public int IdMateria { get; set; }
-        public string Nombre { get; set; }
+        public string Nombre { get; set; } //""
         public Nullable<byte> Creditos { get; set; }
         public Nullable<decimal> Costo { get; set; }
     }

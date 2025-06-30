@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using ML;
+using DL_EF;
 
 namespace BL
 {
@@ -264,7 +265,7 @@ namespace BL
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
@@ -279,7 +280,7 @@ namespace BL
             ML.Result result = new ML.Result(); //instancia-objeto
 
             try
-            { 
+            {
                 using (DL_EF.JTorresProgramacionNCapasJunioEntities context = new DL_EF.JTorresProgramacionNCapasJunioEntities())
                 {
                     var resultQuery = context.MateriaGetById(IdMateria).FirstOrDefault();
@@ -290,8 +291,233 @@ namespace BL
                         materia.IdMateria = resultQuery.IdMateria;
                         materia.Nombre = resultQuery.Nombre;
                         materia.Creditos = resultQuery.Creditos.Value;
-                        
+
                         result.Object = materia;
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+        public static ML.Result GetAllEF()
+        {
+
+            ML.Result result = new ML.Result(); //instancia-objeto
+
+            try
+            {
+                using (DL_EF.JTorresProgramacionNCapasJunioEntities context = new DL_EF.JTorresProgramacionNCapasJunioEntities())
+                {
+                    List<DL_EF.MateriaGetAll_Result> resultQuery = context.MateriaGetAll().ToList();
+
+
+                    if (resultQuery.Count > 0)
+                    {
+                        result.Objects = new List<object>();
+
+                        foreach (MateriaGetAll_Result materiaDB in resultQuery)
+                        {
+                            ML.Materia materia = new ML.Materia();
+                            materia.IdMateria = materiaDB.IdMateria;
+                            materia.Nombre = materiaDB.Nombre;
+                            materia.Creditos = materiaDB.Creditos.Value;
+                            materia.Costo = materiaDB.Costo.Value;
+
+                            result.Objects.Add(materia);
+                        }
+
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+        public static ML.Result GetAllLinq()
+        {
+
+            ML.Result result = new ML.Result(); //instancia-objeto
+
+            try
+            {
+                using (DL_EF.JTorresProgramacionNCapasJunioEntities context = new DL_EF.JTorresProgramacionNCapasJunioEntities())
+                {
+
+                    //select ____ from Materia //pluralize
+                    var resultQuery = (from materiaDB in context.Materias
+                                       select new
+                                       {
+                                           materiaDB.IdMateria,
+                                           materiaDB.Nombre,
+                                           materiaDB.Creditos,
+                                           materiaDB.Costo
+                                       }).ToList();
+
+
+                    if (resultQuery.Count > 0)
+                    {
+                        result.Objects = new List<object>();
+
+                        foreach (var materiaDB in resultQuery)
+                        {
+                            ML.Materia materia = new ML.Materia();
+                            materia.IdMateria = materiaDB.IdMateria;
+                            materia.Nombre = materiaDB.Nombre;
+                            materia.Creditos = materiaDB.Creditos.Value;
+                            materia.Costo = materiaDB.Costo.Value;
+                            result.Objects.Add(materia);
+                        }
+
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+        public static ML.Result GetByIdLinq(int IdMateria)
+        {
+
+            ML.Result result = new ML.Result(); //instancia-objeto
+
+            try
+            {
+                using (DL_EF.JTorresProgramacionNCapasJunioEntities context = new DL_EF.JTorresProgramacionNCapasJunioEntities())
+                {
+
+                    //select ____ from Materia //pluralize
+                    var resultQuery = (from materiaDB in context.Materias
+                                       where materiaDB.IdMateria == IdMateria
+                                       select materiaDB).FirstOrDefault();//select IdMateria, Nombre from Materia
+
+
+                    if (resultQuery != null)
+                    {
+                        result.Objects = new List<object>();
+
+
+                        ML.Materia materia = new ML.Materia();
+                        materia.IdMateria = resultQuery.IdMateria;
+                        materia.Nombre = resultQuery.Nombre;
+
+                        result.Object = materia;
+
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+        public static ML.Result AddLinq(ML.Materia materia)
+        {
+
+            ML.Result result = new ML.Result(); //instancia-objeto
+
+            try
+            {
+                using (DL_EF.JTorresProgramacionNCapasJunioEntities context = new DL_EF.JTorresProgramacionNCapasJunioEntities())
+                {
+                    DL_EF.Materia materiaDB = new DL_EF.Materia();
+
+                    materiaDB.Nombre = materia.Nombre;
+                    materiaDB.Creditos= materia.Creditos;
+                    materiaDB.Costo = materia.Costo;
+                    
+
+                    context.Materias.Add(materiaDB);
+                    int FilasAfectadas =  context.SaveChanges();
+                    
+
+                    if (FilasAfectadas > 0 )
+                    {                       
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+        public static ML.Result UpdateLinq(ML.Materia materia)
+        {
+
+            ML.Result result = new ML.Result(); //instancia-objeto
+
+            try
+            {
+                using (DL_EF.JTorresProgramacionNCapasJunioEntities context = new DL_EF.JTorresProgramacionNCapasJunioEntities())
+                {
+
+                    var queryElemento = (from materiaDB in  context.Materias
+                                         where materiaDB.IdMateria == materia.IdMateria
+                                         select materiaDB).SingleOrDefault();
+
+                    if (queryElemento != null)
+                    {
+                        
+                        queryElemento.Nombre = materia.Nombre;
+                        queryElemento.Creditos = materia.Creditos;
+                        queryElemento.Costo = materia.Costo;
+
+                    }
+                    
+                    
+                    int FilasAfectadas = context.SaveChanges();
+
+
+                    if (FilasAfectadas > 0)
+                    {
                         result.Correct = true;
                     }
                     else

@@ -75,17 +75,20 @@ namespace PL
 
         public static void Update()
         {
-            //IdMateria, Nombre, Creditos, Costo
+            ML.Materia materia = new ML.Materia();
+
+            materia.IdMateria = Convert.ToByte(Console.ReadLine());
+
             Console.WriteLine("Ingresa el nombre");
-            string Nombre = Console.ReadLine();
+            materia.Nombre = Console.ReadLine();
 
             Console.WriteLine("Ingresa los créditos");
-            byte Creditos = Convert.ToByte(Console.ReadLine()); //1
+            materia.Creditos = Convert.ToByte(Console.ReadLine()); //1
 
             Console.WriteLine("Ingresa el costo");
-            decimal Costo = Convert.ToDecimal(Console.ReadLine());
+            materia.Costo = Convert.ToDecimal(Console.ReadLine());
 
-
+            ML.Result result = BL.Materia.UpdateLinq(materia);
 
 
         }
