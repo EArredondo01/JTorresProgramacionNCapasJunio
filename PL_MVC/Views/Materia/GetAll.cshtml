@@ -7,35 +7,50 @@
 
 <div class="container">
     <div class="row">
+        <div class="col-md-12">
+            @Html.ActionLink("+","Add","Materia", new {@class ="btn btn-success"})
+        </div>
+    </div>
+    <div class="row">
 
         <div class="col-md-12">
 
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>IdMateria</th>
-                        <th>Nombre</th>
-                        <th>Creditos</th>
-                        <th>Costo</th>
-                    </tr>
-                </thead>
+            @if (Model.Materias != null)
+            {
 
-                <tbody>
 
-                    @foreach (ML.Materia materia in Model.Materias)
-                    {
+                <table class="table table-hover">
+                    <thead>
                         <tr>
-                            <td>@materia.IdMateria</td>
-                            <td>@materia.Nombre</td>
-                            <td>@materia.Creditos</td>
-                            <td>@materia.Costo</td>
+                            <th>IdMateria</th>
+                            <th>Nombre</th>
+                            <th>Creditos</th>
+                            <th>Costo</th>
                         </tr>
-                    }
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (ML.Materia materia in Model.Materias)
+                        {
+                            <tr>
+                                <td>@materia.IdMateria</td>
+                                <td>@materia.Nombre</td>
+                                <td>@materia.Creditos</td>
+                                <td>@materia.Costo</td>
+                            </tr>
+                        }
 
 
-                </tbody>
-            </table>
-
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-danger">
+                    No existen registros para la tabla Materia. Error: @ViewBag.as1dfghjswdxcvbghnj
+                </div>
+            }
         </div>
 
     </div>

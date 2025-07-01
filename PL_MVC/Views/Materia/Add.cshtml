@@ -1,0 +1,34 @@
+﻿@model ML.Materia
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class="row">
+        @*@Html.BeginForm()*@
+        <div class="col-md-6">
+
+            @Html.LabelFor(model => model.Nombre)
+            @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+        </div>
+
+        <div class="col-md-6">
+            @Html.LabelFor(model => model.Creditos)
+            @Html.TextBoxFor(model => model.Creditos, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+
+            <button type="submit" class="btn btn-success">Guardar</button>
+        </div>
+
+        <div class="col-md-6">
+            @Html.ActionLink("Regresar", "GetAll", "Materia", new {@class="btn btn-danger"})
+        </div>
+    </div>
+
+</div>

@@ -8,14 +8,12 @@ namespace PL_MVC.Controllers
 {
     public class MateriaController : Controller
     {
-        //ActionResult
+        
 
-        [HttpGet]  // Action Verb [HttpPost]
+        [HttpGet]  
         public ActionResult GetAll() //Action Method
         {
             ML.Materia materia = new ML.Materia();
-
-            //BL
 
             ML.Result result = BL.Materia.GetAllLinq();
 
@@ -23,10 +21,21 @@ namespace PL_MVC.Controllers
             {
                 materia.Materias = result.Objects;
             }
+            else
+            {
+                ViewBag.Mensaje = result.ErrorMessage;
+            }
             
-            return View(materia);
+            return View(materia); //ML.Result - 
         }
 
+        [HttpGet]
+        public ActionResult Add() 
+        {
+            
+
+            return View();
+        }
        
     }
 }

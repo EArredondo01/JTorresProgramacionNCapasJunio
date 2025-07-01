@@ -389,7 +389,7 @@ namespace BL
                             result.Objects.Add(materia);
                         }
 
-                        result.Correct = true;
+                        result.Correct = false;
                     }
                     else
                     {
