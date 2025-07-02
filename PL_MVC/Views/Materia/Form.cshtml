@@ -12,25 +12,32 @@
         <div class="row">
             <div class="col-md-6">
 
+                @Html.LabelFor(model => model.IdMateria, new {@class= "hidden" })
+                @Html.TextBoxFor(model => model.IdMateria, new { @class = "form-control hidden" })
+                
+                
+            </div>
+            <div class="col-md-6">
+
                 @Html.LabelFor(model => model.Nombre)
                 @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
             </div>
             <div class="col-md-6">
                 @Html.LabelFor(model => model.Creditos)
-                @Html.TextBoxFor(model => model.Creditos, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.Creditos, "{0:#.#}", new { @class = "form-control" })
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mt-2">
                 @Html.LabelFor(model => model.Costo)
-                @Html.TextBoxFor(model => model.Costo, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.Costo, "{0:#.#}", new { @class = "form-control" })
             </div>
-    
-            <div class="col-md-6">
+
+            <div class="col-md-6 mt-2">
                 @Html.LabelFor(model => model.Semestre.IdSemestre)
                 @Html.TextBoxFor(model => model.Semestre.IdSemestre, new { @class = "form-control" })
             </div>
 
         </div> @*Padding top vs margin*@ 
-        <div class="row pt-3">
+        <div class="row mt-3">
             <div class="col-md-6">
 
                 <button type="submit" class="btn btn-success">Guardar</button>

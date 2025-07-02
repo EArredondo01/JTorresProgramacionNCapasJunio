@@ -59,10 +59,8 @@ namespace PL_MVC.Controllers
         }
 
         [HttpPost] // Recibir datos, guardar datos
-        public ActionResult Form(ML.Materia Materia) //Add, update
+        public ActionResult Form(ML.Materia materia) //Add, update
         {
-            ML.Materia materia = new ML.Materia();
-
             if (materia.IdMateria == 0) //Add
             {
                ML.Result result = BL.Materia.AddLinq(materia);
@@ -76,5 +74,9 @@ namespace PL_MVC.Controllers
             return RedirectToAction("GetAll");
         }
 
+        public ActionResult Delete(int IdMateria)
+        {
+            return RedirectToAction("GetAll");
+        }
     }
 }
