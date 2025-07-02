@@ -8,7 +8,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            @Html.ActionLink("+","Add","Materia", new {@class ="btn btn-success"})
+            @Html.ActionLink("+","Form","Materia", new {IdMateria = 0 }, new {@class ="btn btn-success"})
         </div>
     </div>
     <div class="row">
@@ -22,6 +22,7 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
+                            <th>Editar</th>
                             <th>IdMateria</th>
                             <th>Nombre</th>
                             <th>Creditos</th>
@@ -34,6 +35,11 @@
                         @foreach (ML.Materia materia in Model.Materias)
                         {
                             <tr>
+                                <td>
+                                    <a class="btn btn-warning" href="@Url.Action("Form","Materia", new {IdMateria = materia.IdMateria})">
+                                        Editar
+                                    </a>
+                                </td>
                                 <td>@materia.IdMateria</td>
                                 <td>@materia.Nombre</td>
                                 <td>@materia.Creditos</td>
