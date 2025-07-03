@@ -10,12 +10,9 @@
     @using (Html.BeginForm("Form", "Materia", FormMethod.Post))
     {
         <div class="row">
-            <div class="col-md-6">
-
-                @Html.LabelFor(model => model.IdMateria, new {@class= "hidden" })
-                @Html.TextBoxFor(model => model.IdMateria, new { @class = "form-control hidden" })
-                
-                
+            <div class="col-md-6 d-none">
+                @Html.LabelFor(model => model.IdMateria, new {@class= "" })
+                @Html.TextBoxFor(model => model.IdMateria, new { @class = "form-control hidden" })                         
             </div>
             <div class="col-md-6">
 
