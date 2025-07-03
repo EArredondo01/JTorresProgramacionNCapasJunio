@@ -330,9 +330,11 @@ namespace BL
                         {
                             ML.Materia materia = new ML.Materia();
                             materia.IdMateria = materiaDB.IdMateria;
-                            materia.Nombre = materiaDB.Nombre;
+                            materia.Nombre = materiaDB.MateriaNombre;
                             materia.Creditos = materiaDB.Creditos.Value;
                             materia.Costo = materiaDB.Costo.Value;
+                            materia.Semestre = new ML.Semestre();
+                            materia.Semestre.Nombre = materiaDB.SemestreNombre;
 
                             result.Objects.Add(materia);
                         }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="JTorresProgramacionNCapasJunioModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="JTorresProgramacionNCapasJunioModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Materia">
           <Key>
             <PropertyRef Name="IdMateria" />
@@ -13,6 +13,7 @@
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
           <Property Name="Creditos" Type="tinyint" />
           <Property Name="Costo" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="IdSemestre" Type="tinyint" />
         </EntityType>
         <EntityType Name="Semestre">
           <Key>
@@ -21,6 +22,18 @@
           <Property Name="IdSemestre" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
         </EntityType>
+        <Association Name="FK__Materia__IdSemes__30F848ED">
+          <End Role="Semestre" Type="Self.Semestre" Multiplicity="0..1" />
+          <End Role="Materia" Type="Self.Materia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Semestre">
+              <PropertyRef Name="IdSemestre" />
+            </Principal>
+            <Dependent Role="Materia">
+              <PropertyRef Name="IdSemestre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="MateriaAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
           <Parameter Name="Creditos" Type="tinyint" Mode="In" />
@@ -33,9 +46,12 @@
         <EntityContainer Name="JTorresProgramacionNCapasJunioModelStoreContainer">
           <EntitySet Name="Materia" EntityType="Self.Materia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Semestre" EntityType="Self.Semestre" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Materia__IdSemes__30F848ED" Association="Self.FK__Materia__IdSemes__30F848ED">
+            <End Role="Semestre" EntitySet="Semestre" />
+            <End Role="Materia" EntitySet="Materia" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="JTorresProgramacionNCapasJunioModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -47,6 +63,8 @@
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Creditos" Type="Byte" />
           <Property Name="Costo" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="IdSemestre" Type="Byte" />
+          <NavigationProperty Name="Semestre" Relationship="JTorresProgramacionNCapasJunioModel.FK__Materia__IdSemes__30F848ED" FromRole="Materia" ToRole="Semestre" />
         </EntityType>
         <EntityType Name="Semestre">
           <Key>
@@ -54,6 +72,7 @@
           </Key>
           <Property Name="IdSemestre" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Materias" Relationship="JTorresProgramacionNCapasJunioModel.FK__Materia__IdSemes__30F848ED" FromRole="Semestre" ToRole="Materia" />
         </EntityType>
         <EntityContainer Name="JTorresProgramacionNCapasJunioEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Materias" EntityType="Self.Materia" />
@@ -63,22 +82,40 @@
             <Parameter Name="Creditos" Mode="In" Type="Byte" />
             <Parameter Name="Costo" Mode="In" Type="Decimal" />
           </FunctionImport>
-          <FunctionImport Name="MateriaGetAll" ReturnType="Collection(JTorresProgramacionNCapasJunioModel.MateriaGetAll_Result)" />
           <FunctionImport Name="MateriaGetById" ReturnType="Collection(JTorresProgramacionNCapasJunioModel.MateriaGetById_Result)">
-            <Parameter Name="IdMateria" Mode="In" Type="Int32" />
+          <Parameter Name="IdMateria" Mode="In" Type="Int32" />
           </FunctionImport>
+          <AssociationSet Name="FK__Materia__IdSemes__30F848ED" Association="JTorresProgramacionNCapasJunioModel.FK__Materia__IdSemes__30F848ED">
+            <End Role="Semestre" EntitySet="Semestres" />
+            <End Role="Materia" EntitySet="Materias" />
+          </AssociationSet>
+          <FunctionImport Name="MateriaGetAll" ReturnType="Collection(JTorresProgramacionNCapasJunioModel.MateriaGetAll_Result)" />
         </EntityContainer>
-        <ComplexType Name="MateriaGetAll_Result">
-          <Property Type="Int32" Name="IdMateria" Nullable="false" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
-          <Property Type="Byte" Name="Creditos" Nullable="true" />
-          <Property Type="Decimal" Name="Costo" Nullable="true" Precision="18" Scale="0" />
-        </ComplexType>
         <ComplexType Name="MateriaGetById_Result">
           <Property Type="Int32" Name="IdMateria" Nullable="false" />
           <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
           <Property Type="Byte" Name="Creditos" Nullable="true" />
           <Property Type="Decimal" Name="Costo" Nullable="true" Precision="18" Scale="0" />
+        </ComplexType>
+        <Association Name="FK__Materia__IdSemes__30F848ED">
+          <End Type="JTorresProgramacionNCapasJunioModel.Semestre" Role="Semestre" Multiplicity="0..1" />
+          <End Type="JTorresProgramacionNCapasJunioModel.Materia" Role="Materia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Semestre">
+              <PropertyRef Name="IdSemestre" />
+            </Principal>
+            <Dependent Role="Materia">
+              <PropertyRef Name="IdSemestre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="MateriaGetAll_Result">
+          <Property Type="Int32" Name="IdMateria" Nullable="false" />
+          <Property Type="String" Name="MateriaNombre" Nullable="true" MaxLength="50" />
+          <Property Type="Byte" Name="Creditos" Nullable="true" />
+          <Property Type="Decimal" Name="Costo" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Byte" Name="IdSemestre" Nullable="true" />
+          <Property Type="String" Name="SemestreNombre" Nullable="true" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -89,6 +126,7 @@
           <EntitySetMapping Name="Materias">
             <EntityTypeMapping TypeName="JTorresProgramacionNCapasJunioModel.Materia">
               <MappingFragment StoreEntitySet="Materia">
+                <ScalarProperty Name="IdSemestre" ColumnName="IdSemestre" />
                 <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Creditos" ColumnName="Creditos" />
@@ -105,16 +143,6 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="MateriaAdd" FunctionName="JTorresProgramacionNCapasJunioModel.Store.MateriaAdd" />
-          <FunctionImportMapping FunctionImportName="MateriaGetAll" FunctionName="JTorresProgramacionNCapasJunioModel.Store.MateriaGetAll">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="JTorresProgramacionNCapasJunioModel.MateriaGetAll_Result">
-                <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Creditos" ColumnName="Creditos" />
-                <ScalarProperty Name="Costo" ColumnName="Costo" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="MateriaGetById" FunctionName="JTorresProgramacionNCapasJunioModel.Store.MateriaGetById">
             <ResultMapping>
               <ComplexTypeMapping TypeName="JTorresProgramacionNCapasJunioModel.MateriaGetById_Result">
@@ -122,6 +150,18 @@
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Creditos" ColumnName="Creditos" />
                 <ScalarProperty Name="Costo" ColumnName="Costo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MateriaGetAll" FunctionName="JTorresProgramacionNCapasJunioModel.Store.MateriaGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="JTorresProgramacionNCapasJunioModel.MateriaGetAll_Result">
+                <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
+                <ScalarProperty Name="MateriaNombre" ColumnName="MateriaNombre" />
+                <ScalarProperty Name="Creditos" ColumnName="Creditos" />
+                <ScalarProperty Name="Costo" ColumnName="Costo" />
+                <ScalarProperty Name="IdSemestre" ColumnName="IdSemestre" />
+                <ScalarProperty Name="SemestreNombre" ColumnName="SemestreNombre" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

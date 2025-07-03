@@ -7,6 +7,7 @@
       <Diagram DiagramId="4eab1dc503434c15adea94587754e504" Name="Diagram1">
         <EntityTypeShape EntityType="JTorresProgramacionNCapasJunioModel.Materia" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="JTorresProgramacionNCapasJunioModel.Semestre" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="JTorresProgramacionNCapasJunioModel.FK__Materia__IdSemes__30F848ED" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

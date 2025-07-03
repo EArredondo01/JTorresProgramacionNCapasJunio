@@ -34,6 +34,8 @@ namespace PL_MVC.Controllers
         {
             ML.Materia materia = new ML.Materia();
 
+            
+            
             if (IdMateria > 0) //     >0   Update
             {
                 //get by id
@@ -54,6 +56,14 @@ namespace PL_MVC.Controllers
 
             }
 
+            ML.Result resultSemestres = new ML.Result();
+            resultSemestres = BL.Semestre.GetAll();
+
+            if (resultSemestres.Correct)
+            {
+                materia.Semestre = new ML.Semestre();
+                materia.Semestre.Semestres = resultSemestres.Objects;
+            }
 
             return View(materia);
         }

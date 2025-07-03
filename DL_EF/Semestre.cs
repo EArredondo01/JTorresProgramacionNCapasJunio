@@ -14,7 +14,16 @@ namespace DL_EF
     
     public partial class Semestre
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Semestre()
+        {
+            this.Materias = new HashSet<Materia>();
+        }
+    
         public byte IdSemestre { get; set; }
         public string Nombre { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Materia> Materias { get; set; }
     }
 }
