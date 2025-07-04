@@ -35,8 +35,17 @@ namespace PL_MVC.Controllers
         {
             ML.Materia materia = new ML.Materia();
 
-            
-            
+            ML.Result resultSemestres = new ML.Result();
+            resultSemestres = BL.Semestre.GetAll(); // Consulto todos mis semestres
+
+            if (resultSemestres.Correct)
+            {
+                materia.Semestre = new ML.Semestre();
+                materia.Semestre.Semestres = resultSemestres.Objects;
+            }
+
+
+
             if (IdMateria > 0) //     >0   Update
             {
                 //get by id
@@ -45,6 +54,8 @@ namespace PL_MVC.Controllers
                 if(result.Correct)
                 {
                     materia = (ML.Materia)result.Object;//Unboxing
+                    materia.Semestre.Semestres = resultSemestres.Objects;
+
                 }
                 else
                 {
@@ -57,14 +68,9 @@ namespace PL_MVC.Controllers
 
             }
 
-            ML.Result resultSemestres = new ML.Result();
-            resultSemestres = BL.Semestre.GetAll();
+            
 
-            if (resultSemestres.Correct)
-            {
-                materia.Semestre = new ML.Semestre();
-                materia.Semestre.Semestres = resultSemestres.Objects;
-            }
+
 
             return View(materia);
         }
