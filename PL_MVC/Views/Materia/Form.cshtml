@@ -12,7 +12,7 @@
         <option value="1">Cliente</option>
     </select>
 
-    @using (Html.BeginForm("Form", "Materia", FormMethod.Post))
+    @using (Html.BeginForm("Form", "Materia", FormMethod.Post, new { @enctype = "multipart/form-data" } ))
     {
         <div class="row">
             <div class="col-md-6 d-none">
@@ -34,10 +34,16 @@
             </div>
 
             <div class="col-md-6 mt-2">
-                @Html.LabelFor(model => model.Semestre.IdSemestre)
+                @Html.LabelFor(model => model.Semestre)
                 @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Seleccione un semestre", new { @class = "form-control" })
- 
+
             </div>
+
+            <div class="col-md-6 mt-2">
+                <input type="file" name="imgMateriaInput" onchange="PrevisualizarImagen(event)" />
+                <img id="imgMateria" width="150px" height="150px" />
+            </div>
+
 
         </div> @*Padding top vs margin*@
         <div class="row mt-3">
@@ -57,3 +63,14 @@
 
 
 </div>
+
+<script type="text/javascript">
+    function PrevisualizarImagen(event)
+    {
+        var output = document.getElementById('imgMateria');
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function () {
+            URL.revokeObjectURL(output.src) // free memory
+        }
+    }
+</script>

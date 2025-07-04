@@ -15,5 +15,7 @@ namespace ML
         public decimal Costo { get; set; }
         public List<object> Materias { get; set; }
         public ML.Semestre Semestre { get; set; }
+        public ML.ImagenMateria ImagenMateria { get; set; }
+
     }
 }

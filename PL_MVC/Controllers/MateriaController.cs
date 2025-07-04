@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -71,9 +72,35 @@ namespace PL_MVC.Controllers
         [HttpPost] // Recibir datos, guardar datos
         public ActionResult Form(ML.Materia materia) //Add, update
         {
+            HttpPostedFileBase imagen = Request.Files["imgMateriaInput"];
+
+
+            //string -> int
+            //byte[] -> stream
+            //how to convert byte[] to stream
+
+
+            #region ConvertStreamToByte
+            if (imagen != null)
+            {
+                MemoryStream target = new MemoryStream();
+                imagen.InputStream.CopyTo(target);
+                byte[] data = target.ToArray();
+                materia.ImagenMateria = new ML.ImagenMateria();
+                materia.ImagenMateria.Imagen = data;
+            }
+            #endregion 
+
+
+
             if (materia.IdMateria == 0) //Add
             {
                ML.Result result = BL.Materia.AddLinq(materia);
+
+
+
+                //aqui va el insert de imagen
+
             }
             else //Update
             {
