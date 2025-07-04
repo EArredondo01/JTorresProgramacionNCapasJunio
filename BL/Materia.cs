@@ -368,6 +368,7 @@ namespace BL
 
                     //select ____ from Materia //pluralize
                     var resultQuery = (from materiaDB in context.Materias
+                                       join semestreDB in context.Semestres on materiaDB.IdSemestre equals semestreDB.IdSemestre
                                        select new
                                        {
                                            materiaDB.IdMateria,
@@ -419,8 +420,7 @@ namespace BL
                 {
 
                     //select ____ from Materia //pluralize
-                    var resultQuery = (from materiaDB in context.Materias
-                                       join semestreDB in context.Semestres on materiaDB.IdSemestre equals semestreDB.IdSemestre
+                    var resultQuery = (from materiaDB in context.Materias                                   
                                        where materiaDB.IdMateria == IdMateria
                                        select materiaDB).FirstOrDefault();//select IdMateria, Nombre from Materia
 
