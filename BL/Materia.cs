@@ -330,11 +330,11 @@ namespace BL
                         {
                             ML.Materia materia = new ML.Materia();
                             materia.IdMateria = materiaDB.IdMateria;
-                            materia.Nombre = materiaDB.MateriaNombre;
+                            //materia.Nombre = materiaDB.MateriaNombre;
                             materia.Creditos = materiaDB.Creditos.Value;
                             materia.Costo = materiaDB.Costo.Value;
                             materia.Semestre = new ML.Semestre();
-                            materia.Semestre.Nombre = materiaDB.SemestreNombre;
+                            //materia.Semestre.Nombre = materiaDB.SemestreNombre;
 
                             result.Objects.Add(materia);
                         }
@@ -373,7 +373,7 @@ namespace BL
                                            materiaDB.IdMateria,
                                            materiaDB.Nombre,
                                            materiaDB.Creditos,
-                                           materiaDB.Costo
+                                           materiaDB.Costo,
                                        }).ToList();
 
 
@@ -420,6 +420,7 @@ namespace BL
 
                     //select ____ from Materia //pluralize
                     var resultQuery = (from materiaDB in context.Materias
+                                       join semestreDB in context.Semestres on materiaDB.IdSemestre equals semestreDB.IdSemestre
                                        where materiaDB.IdMateria == IdMateria
                                        select materiaDB).FirstOrDefault();//select IdMateria, Nombre from Materia
 
@@ -434,6 +435,9 @@ namespace BL
                         materia.Nombre = resultQuery.Nombre;
                         materia.Creditos = resultQuery.Creditos;
                         materia.Costo = resultQuery.Costo.Value;
+
+                        materia.Semestre = new ML.Semestre();
+                        materia.Semestre.IdSemestre = resultQuery.IdSemestre.Value;
                         
                         result.Object = materia;
 
