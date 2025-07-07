@@ -34,6 +34,7 @@ namespace PL_MVC.Controllers
         public ActionResult Form(int? IdMateria) //Add, update
         {
             ML.Materia materia = new ML.Materia();
+            materia.ImagenMateria = new ML.ImagenMateria();
 
             ML.Result resultSemestres = new ML.Result();
             resultSemestres = BL.Semestre.GetAll(); // Consulto todos mis semestres
@@ -50,8 +51,8 @@ namespace PL_MVC.Controllers
             {
                 //get by id
                 ML.Result result = BL.Materia.GetByIdLinq(IdMateria.Value);
-                
-                if(result.Correct)
+
+                if (result.Correct)
                 {
                     materia = (ML.Materia)result.Object;//Unboxing
                     materia.Semestre.Semestres = resultSemestres.Objects;
@@ -61,14 +62,14 @@ namespace PL_MVC.Controllers
                 {
 
                 }
-                
+
             }
             else //Add
             {
 
             }
 
-            
+
 
 
 
@@ -85,9 +86,15 @@ namespace PL_MVC.Controllers
             //byte[] -> stream
             //how to convert byte[] to stream
 
+            //Id - 1 Elemento
+            //Class/name -  N Elemento
+
+
+            //$(#txtNombre) //1 valor
+            //$(.form-control) //N Valores
 
             #region ConvertStreamToByte
-            if (imagen != null)
+            if (imagen.ContentLength > 0)
             {
                 MemoryStream target = new MemoryStream();
                 imagen.InputStream.CopyTo(target);
@@ -99,11 +106,16 @@ namespace PL_MVC.Controllers
 
 
 
+
+
             if (materia.IdMateria == 0) //Add
             {
-               ML.Result result = BL.Materia.AddLinq(materia);
+                ML.Result result = BL.Materia.AddLinq(materia);
 
+                int IdMateria = (int)result.Object;
+                //unboxing
 
+                //paso de parámetros por valor, por referencia
 
                 //aqui va el insert de imagen
 

@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="JTorresProgramacionNCapasJunioModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ImagenMateria">
+          <Key>
+            <PropertyRef Name="IdImagenMateria" />
+          </Key>
+          <Property Name="IdImagenMateria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdMateria" Type="int" />
+          <Property Name="Imagen" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="Materia">
           <Key>
             <PropertyRef Name="IdMateria" />
@@ -22,6 +30,18 @@
           <Property Name="IdSemestre" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
         </EntityType>
+        <Association Name="FK__ImagenMat__IdMat__33D4B598">
+          <End Role="Materia" Type="Self.Materia" Multiplicity="0..1" />
+          <End Role="ImagenMateria" Type="Self.ImagenMateria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materia">
+              <PropertyRef Name="IdMateria" />
+            </Principal>
+            <Dependent Role="ImagenMateria">
+              <PropertyRef Name="IdMateria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Materia__IdSemes__30F848ED">
           <End Role="Semestre" Type="Self.Semestre" Multiplicity="0..1" />
           <End Role="Materia" Type="Self.Materia" Multiplicity="*" />
@@ -44,8 +64,13 @@
           <Parameter Name="IdMateria" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="JTorresProgramacionNCapasJunioModelStoreContainer">
+          <EntitySet Name="ImagenMateria" EntityType="Self.ImagenMateria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Materia" EntityType="Self.Materia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Semestre" EntityType="Self.Semestre" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__ImagenMat__IdMat__33D4B598" Association="Self.FK__ImagenMat__IdMat__33D4B598">
+            <End Role="Materia" EntitySet="Materia" />
+            <End Role="ImagenMateria" EntitySet="ImagenMateria" />
+          </AssociationSet>
           <AssociationSet Name="FK__Materia__IdSemes__30F848ED" Association="Self.FK__Materia__IdSemes__30F848ED">
             <End Role="Semestre" EntitySet="Semestre" />
             <End Role="Materia" EntitySet="Materia" />
@@ -65,6 +90,7 @@
           <Property Name="Costo" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="IdSemestre" Type="Byte" />
           <NavigationProperty Name="Semestre" Relationship="JTorresProgramacionNCapasJunioModel.FK__Materia__IdSemes__30F848ED" FromRole="Materia" ToRole="Semestre" />
+          <NavigationProperty Name="ImagenMaterias" Relationship="JTorresProgramacionNCapasJunioModel.FK__ImagenMat__IdMat__33D4B598" FromRole="Materia" ToRole="ImagenMateria" />
         </EntityType>
         <EntityType Name="Semestre">
           <Key>
@@ -90,6 +116,11 @@
             <End Role="Materia" EntitySet="Materias" />
           </AssociationSet>
           <FunctionImport Name="MateriaGetAll" ReturnType="Collection(JTorresProgramacionNCapasJunioModel.MateriaGetAll_Result)" />
+          <EntitySet Name="ImagenMaterias" EntityType="JTorresProgramacionNCapasJunioModel.ImagenMateria" />
+          <AssociationSet Name="FK__ImagenMat__IdMat__33D4B598" Association="JTorresProgramacionNCapasJunioModel.FK__ImagenMat__IdMat__33D4B598">
+            <End Role="Materia" EntitySet="Materias" />
+            <End Role="ImagenMateria" EntitySet="ImagenMaterias" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="MateriaGetById_Result">
           <Property Type="Int32" Name="IdMateria" Nullable="false" />
@@ -117,6 +148,27 @@
           <Property Type="Byte" Name="IdSemestre" Nullable="true" />
           <Property Type="String" Name="SemestreNombre" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <EntityType Name="ImagenMateria">
+          <Key>
+            <PropertyRef Name="IdImagenMateria" />
+          </Key>
+          <Property Name="IdImagenMateria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdMateria" Type="Int32" />
+          <Property Name="Imagen" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Materia" Relationship="JTorresProgramacionNCapasJunioModel.FK__ImagenMat__IdMat__33D4B598" FromRole="ImagenMateria" ToRole="Materia" />
+        </EntityType>
+        <Association Name="FK__ImagenMat__IdMat__33D4B598">
+          <End Type="JTorresProgramacionNCapasJunioModel.Materia" Role="Materia" Multiplicity="0..1" />
+          <End Type="JTorresProgramacionNCapasJunioModel.ImagenMateria" Role="ImagenMateria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materia">
+              <PropertyRef Name="IdMateria" />
+            </Principal>
+            <Dependent Role="ImagenMateria">
+              <PropertyRef Name="IdMateria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -165,6 +217,15 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="ImagenMaterias">
+            <EntityTypeMapping TypeName="JTorresProgramacionNCapasJunioModel.ImagenMateria">
+              <MappingFragment StoreEntitySet="ImagenMateria">
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
+                <ScalarProperty Name="IdImagenMateria" ColumnName="IdImagenMateria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

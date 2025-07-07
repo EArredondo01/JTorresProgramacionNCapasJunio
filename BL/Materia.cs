@@ -481,6 +481,7 @@ namespace BL
                     if (FilasAfectadas > 0 )
                     {                       
                         result.Correct = true;
+                        result.Object = materiaDB.IdMateria;//13 boxing
                     }
                     else
                     {

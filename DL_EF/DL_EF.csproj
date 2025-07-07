@@ -51,6 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="ImagenMateria.cs">
+      <DependentUpon>JTorresProgramacionNCapasJunio.tt</DependentUpon>
+    </Compile>
     <Compile Include="JTorresProgramacionNCapasJunio.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

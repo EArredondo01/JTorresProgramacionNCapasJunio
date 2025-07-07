@@ -14,6 +14,12 @@ namespace DL_EF
     
     public partial class Materia
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Materia()
+        {
+            this.ImagenMaterias = new HashSet<ImagenMateria>();
+        }
+    
         public int IdMateria { get; set; }
         public string Nombre { get; set; }
         public Nullable<byte> Creditos { get; set; }
@@ -21,5 +27,7 @@ namespace DL_EF
         public Nullable<byte> IdSemestre { get; set; }
     
         public virtual Semestre Semestre { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ImagenMateria> ImagenMaterias { get; set; }
     }
 }

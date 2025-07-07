@@ -13,6 +13,7 @@ namespace ML
       //string -> varchar
 
         public int IdImagenMateria { get; set; }
+        public string Descripcion { get; set; }
         public byte[] Imagen { get; set; }
         public List<object> ImagenesMaterias { get; set; }
     }
