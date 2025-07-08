@@ -17,6 +17,8 @@ namespace DL_EF
         public int IdImagenMateria { get; set; }
         public Nullable<int> IdMateria { get; set; }
         public byte[] Imagen { get; set; }
+        public string Nombre { get; set; }
+        public string Descripcion { get; set; }
     
         public virtual Materia Materia { get; set; }
     }

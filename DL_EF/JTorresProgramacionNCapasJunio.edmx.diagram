@@ -8,7 +8,7 @@
         <EntityTypeShape EntityType="JTorresProgramacionNCapasJunioModel.Materia" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="JTorresProgramacionNCapasJunioModel.Semestre" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="JTorresProgramacionNCapasJunioModel.FK__Materia__IdSemes__30F848ED" />
-        <EntityTypeShape EntityType="JTorresProgramacionNCapasJunioModel.ImagenMateria" Width="1.5" PointX="3" PointY="4" />
+        <EntityTypeShape EntityType="JTorresProgramacionNCapasJunioModel.ImagenMateria" Width="1.5" PointX="3" PointY="3.875" />
         <AssociationConnector Association="JTorresProgramacionNCapasJunioModel.FK__ImagenMat__IdMat__33D4B598" />
       </Diagram>
     </edmx:Diagrams>

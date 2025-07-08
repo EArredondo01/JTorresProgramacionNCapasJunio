@@ -12,6 +12,8 @@
           <Property Name="IdImagenMateria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdMateria" Type="int" />
           <Property Name="Imagen" Type="varbinary(max)" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Materia">
           <Key>
@@ -155,6 +157,8 @@
           <Property Name="IdImagenMateria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdMateria" Type="Int32" />
           <Property Name="Imagen" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Materia" Relationship="JTorresProgramacionNCapasJunioModel.FK__ImagenMat__IdMat__33D4B598" FromRole="ImagenMateria" ToRole="Materia" />
         </EntityType>
         <Association Name="FK__ImagenMat__IdMat__33D4B598">
@@ -220,6 +224,8 @@
           <EntitySetMapping Name="ImagenMaterias">
             <EntityTypeMapping TypeName="JTorresProgramacionNCapasJunioModel.ImagenMateria">
               <MappingFragment StoreEntitySet="ImagenMateria">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Imagen" ColumnName="Imagen" />
                 <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
                 <ScalarProperty Name="IdImagenMateria" ColumnName="IdImagenMateria" />

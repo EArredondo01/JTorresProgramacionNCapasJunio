@@ -30,6 +30,46 @@ namespace PL_MVC.Controllers
             return View(materia); //ML.Result - 
         }
 
+        public ActionResult AddImagen(ML.Materia materia) //Action Method 
+        {
+            string idTemporal = Guid.NewGuid().ToString();
+
+
+            materia.ImagenMateria.ImagenesMaterias = new List<object>();
+
+
+            HttpPostedFileBase imagen = Request.Files["imgMateriaInput"];
+
+
+            #region ConvertStreamToByte
+            if (imagen.ContentLength > 0)
+            {
+                MemoryStream target = new MemoryStream();
+                imagen.InputStream.CopyTo(target);
+                byte[] data = target.ToArray();
+                materia.ImagenMateria.Imagen = data;
+
+            }
+            #endregion 
+
+
+
+            if (Session["ListaImagenes"] == null)
+            {
+                materia.ImagenMateria.ImagenesMaterias.Add(materia.ImagenMateria);
+            }
+            else
+            {
+                materia.ImagenMateria.ImagenesMaterias = (Session["ListaImagenes"]) as List<object>;
+                materia.ImagenMateria.ImagenesMaterias.Add(materia.ImagenMateria);
+            }
+
+            Session["ListaImagenes"] = materia.ImagenMateria.ImagenesMaterias;
+                
+            return RedirectToAction("Form", new {IdMateria=0});
+        }
+
+
         [HttpGet] // Mostrar la vista
         public ActionResult Form(int? IdMateria) //Add, update
         {
@@ -70,9 +110,13 @@ namespace PL_MVC.Controllers
             }
 
 
+            if (Session["ListaImagenes"]!= null)
+            {
+                List<object> prueba = (Session["ListaImagenes"]) as List<object>;
+                materia.ImagenMateria.ImagenesMaterias = prueba;
+            }
 
-
-
+           
             return View(materia);
         }
 

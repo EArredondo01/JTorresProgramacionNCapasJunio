@@ -6,9 +6,11 @@
 
 
 <div class="container">
-    @using (Html.BeginForm("Form", "Materia", FormMethod.Post, new { @enctype = "multipart/form-data" }))
-    {
-        <div class="row">
+
+    <div class="row">
+        @using (Html.BeginForm("Form", "Materia", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+        {
+            //arreglo de bytes -> varbinary
             <div class="col-md-4">
                 <div class="col-md-12 d-none">
                     @Html.LabelFor(model => model.IdMateria, new { @class = "" })
@@ -37,10 +39,27 @@
 
                 </div>
             </div>
+            <div class="row mt-3">
+                <div class="col-md-6">
+
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                </div>
+
+                <div class="col-md-6">
+                    @Html.ActionLink("Regresar", "GetAll", "Materia", new { @class = "btn btn-danger" })
+                </div>
+            </div>
+
+
+        }
+
+        @using (Html.BeginForm("AddImagen", "Materia", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+        {
             <div class="col-md-4">
                 <div class="col-md-6 mt-2">
-                    <input type="file" name="imgMateriaInput" onchange="PrevisualizarImagen(event)" />
                     <img src="~/Img/UserDefault.png" id="imgMateria" width="150px" height="150px" />
+                    <input type="file" name="imgMateriaInput" onchange="PrevisualizarImagen(event)" />
+                    @Html.TextBoxFor(model => model.ImagenMateria.Descripcion, new { placeholder = "Ingresa la descripción de la imagen", @class = "form-control" })
                 </div>
 
                 @if (Model.ImagenMateria.ImagenesMaterias != null)
@@ -49,6 +68,7 @@
                         <thead>
                             <tr>
                                 <th>IdImagenMateria</th>
+                                <th>Nombre</th>
                                 <th>Descripción</th>
                                 <th>Archivo</th>
                                 <th>Eliminar</th>
@@ -60,10 +80,11 @@
                             @foreach (ML.ImagenMateria materiaImagen in Model.ImagenMateria.ImagenesMaterias)
                             {
                                 <tr>
-                                    <th>IdImagenMateria</th>
+                                    <th>0</th>
+                                    <th>Prueba1</th>
                                     <td>@materiaImagen.Descripcion</td>
                                     <td>
-                                        <img src="@materiaImagen.Imagen" />
+                                        <img src="data:image/png;base64,@Convert.ToBase64String(materiaImagen.Imagen)" />
                                     </td>
 
                                     <td>
@@ -81,25 +102,18 @@
 
             </div>
 
+            <div class="row mt-3">
+                <div class="col-md-6">
 
-
-
-
-
-        </div> @*Padding top vs margin*@
-        <div class="row mt-3">
-            <div class="col-md-6">
-
-                <button type="submit" class="btn btn-success">Guardar</button>
+                    <button type="submit" class="btn btn-info">Subir Imagen</button>
+                </div>
             </div>
 
-            <div class="col-md-6">
-                @Html.ActionLink("Regresar", "GetAll", "Materia", new { @class = "btn btn-danger" })
-            </div>
-        </div>
+        }
 
 
-    }
+    </div>
+
 
 
 
