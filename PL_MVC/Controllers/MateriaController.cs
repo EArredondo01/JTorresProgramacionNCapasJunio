@@ -154,7 +154,7 @@ namespace PL_MVC.Controllers
                         materia.ImagenMateria.ImagenesMaterias = resultImagenes.Objects;//2
                         List<object> list2 = resultImagenes.Objects;
 
-                        var lista3=list1.Concat(list2).Distinct().ToList();
+                        var lista3=list1.Concat(list2).Distinct().ToList();//prueba
 
                         List<ImagenMateria> list4 = new List<ImagenMateria>();
 
