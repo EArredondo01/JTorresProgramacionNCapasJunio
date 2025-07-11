@@ -431,7 +431,7 @@ namespace BL
 
 
                         ML.Materia materia = new ML.Materia();
-                        //materia.IdMateria = resultQuery.IdMateria;
+                        materia.IdMateria = resultQuery.IdMateria;
                         materia.Nombre = resultQuery.Nombre;
                         materia.Creditos = resultQuery.Creditos;
                         materia.Costo = resultQuery.Costo.Value;

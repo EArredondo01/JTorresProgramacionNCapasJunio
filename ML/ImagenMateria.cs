@@ -12,7 +12,7 @@ namespace ML
       //int -> int
       //string -> varchar
 
-        public int IdImagenMateria { get; set; }
+        public string IdImagenMateria { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public byte[] Imagen { get; set; }

@@ -16,7 +16,7 @@ namespace PL_MVC.Controllers
         {
             ML.Materia materia = new ML.Materia();
 
-            ML.Result result = BL.Materia.GetAllLinq();
+            ML.Result result = BL.Materia.GetAllEF();
 
             if (result.Correct)
             {
@@ -30,16 +30,42 @@ namespace PL_MVC.Controllers
             return View(materia); //ML.Result - 
         }
 
+
+        public ActionResult DeleteImagen(string IdImagenMateria) //Action Method 
+        {
+            ML.ImagenMateria imagenMateria = new ML.ImagenMateria();
+            if((Session["ListaImagenes"]) != null)
+            {
+                imagenMateria.ImagenesMaterias = (Session["ListaImagenes"]) as List<object>;
+
+                foreach (ML.ImagenMateria obj in imagenMateria.ImagenesMaterias)
+                {
+                    if(obj.IdImagenMateria == IdImagenMateria)
+                    {
+                        imagenMateria.ImagenesMaterias.Remove(obj);
+                        break;
+                    }
+                }
+
+                Session["ListaImagenes"] = imagenMateria.ImagenesMaterias;
+
+            }
+            else
+            {
+                ViewBag.Error = "No existen elementos en la sesión";
+            }
+
+            return RedirectToAction("Form", new { IdMateria = 0 });
+
+        }
+
+        [HttpPost]
         public ActionResult AddImagen(ML.Materia materia) //Action Method 
         {
-            string idTemporal = Guid.NewGuid().ToString();
-
 
             materia.ImagenMateria.ImagenesMaterias = new List<object>();
 
-
             HttpPostedFileBase imagen = Request.Files["imgMateriaInput"];
-
 
             #region ConvertStreamToByte
             if (imagen.ContentLength > 0)
@@ -48,7 +74,8 @@ namespace PL_MVC.Controllers
                 imagen.InputStream.CopyTo(target);
                 byte[] data = target.ToArray();
                 materia.ImagenMateria.Imagen = data;
-
+                materia.ImagenMateria.IdImagenMateria = Guid.NewGuid().ToString();
+                materia.ImagenMateria.Nombre = imagen.FileName;
             }
             #endregion 
 
@@ -65,8 +92,8 @@ namespace PL_MVC.Controllers
             }
 
             Session["ListaImagenes"] = materia.ImagenMateria.ImagenesMaterias;
-                
-            return RedirectToAction("Form", new {IdMateria=0});
+
+            return RedirectToAction("Form", new { IdMateria = 0 });
         }
 
 
@@ -97,6 +124,9 @@ namespace PL_MVC.Controllers
                     materia = (ML.Materia)result.Object;//Unboxing
                     materia.Semestre.Semestres = resultSemestres.Objects;
 
+                    ML.Result resultImagenes = BL.ImagenMateria.GetByIdMateria(IdMateria.Value);
+                    materia.ImagenMateria = new ML.ImagenMateria();
+                    materia.ImagenMateria.ImagenesMaterias = resultImagenes.Objects;
                 }
                 else
                 {
@@ -110,59 +140,50 @@ namespace PL_MVC.Controllers
             }
 
 
-            if (Session["ListaImagenes"]!= null)
+            if (Session["ListaImagenes"] != null)
             {
                 List<object> prueba = (Session["ListaImagenes"]) as List<object>;
                 materia.ImagenMateria.ImagenesMaterias = prueba;
             }
 
-           
+
             return View(materia);
         }
 
         [HttpPost] // Recibir datos, guardar datos
         public ActionResult Form(ML.Materia materia) //Add, update
         {
-            HttpPostedFileBase imagen = Request.Files["imgMateriaInput"];
-
-
-            //string -> int
-            //byte[] -> stream
-            //how to convert byte[] to stream
-
-            //Id - 1 Elemento
-            //Class/name -  N Elemento
-
-
-            //$(#txtNombre) //1 valor
-            //$(.form-control) //N Valores
-
-            #region ConvertStreamToByte
-            if (imagen.ContentLength > 0)
-            {
-                MemoryStream target = new MemoryStream();
-                imagen.InputStream.CopyTo(target);
-                byte[] data = target.ToArray();
-                materia.ImagenMateria = new ML.ImagenMateria();
-                materia.ImagenMateria.Imagen = data;
-            }
-            #endregion 
-
-
-
-
-
             if (materia.IdMateria == 0) //Add
             {
                 ML.Result result = BL.Materia.AddLinq(materia);
 
                 int IdMateria = (int)result.Object;
-                //unboxing
 
-                //paso de parámetros por valor, por referencia
 
-                //aqui va el insert de imagen
+                if(IdMateria> 0)
+                {
+                    //insertar las materia
+                    materia.ImagenMateria = new ML.ImagenMateria();
+                    materia.ImagenMateria.ImagenesMaterias = (Session["ListaImagenes"]) as List<object>;
 
+
+                    foreach (ML.ImagenMateria imagenMateriaObj in materia.ImagenMateria.ImagenesMaterias)
+                    {
+                        materia.ImagenMateria = imagenMateriaObj;
+                        materia.IdMateria = IdMateria;
+                        
+                        //if(Convert.ToInt(imagenMateriaObj.IdImagenMateria))
+                        //{
+                        //    ML.Result resultInsertImagenMateria = BL.ImagenMateria.Update(materia);
+
+                        //}
+                        //else
+                        //{
+                            ML.Result resultInsertImagenMateria = BL.ImagenMateria.Add(materia);
+
+                        //}
+                    }
+                }
             }
             else //Update
             {

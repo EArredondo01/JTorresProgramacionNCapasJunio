@@ -80,15 +80,15 @@
                             @foreach (ML.ImagenMateria materiaImagen in Model.ImagenMateria.ImagenesMaterias)
                             {
                                 <tr>
-                                    <th>0</th>
-                                    <th>Prueba1</th>
+                                    <th>@materiaImagen.IdImagenMateria</th>
+                                    <th>@materiaImagen.Nombre</th>
                                     <td>@materiaImagen.Descripcion</td>
                                     <td>
-                                        <img src="data:image/png;base64,@Convert.ToBase64String(materiaImagen.Imagen)" />
+                                        <img height="200px" width="200px" src="data:image/png;base64,@Convert.ToBase64String(materiaImagen.Imagen)" />
                                     </td>
 
                                     <td>
-                                        <a href="@Url.Action("Delete","Materia", new { IdImagenMateria = materiaImagen.IdImagenMateria })" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar la imagen')">
+                                        <a href="@Url.Action("DeleteImagen","Materia", new { IdImagenMateria = materiaImagen.IdImagenMateria })" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar la imagen')">
                                             <i class="bi bi-trash"></i>
                                             Eliminar
                                         </a>
