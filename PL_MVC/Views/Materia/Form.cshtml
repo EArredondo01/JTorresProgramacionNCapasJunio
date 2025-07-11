@@ -55,6 +55,7 @@
 
         @using (Html.BeginForm("AddImagen", "Materia", FormMethod.Post, new { @enctype = "multipart/form-data" }))
         {
+            @Html.HiddenFor(model=> model.IdMateria)
             <div class="col-md-4">
                 <div class="col-md-6 mt-2">
                     <img src="~/Img/UserDefault.png" id="imgMateria" width="150px" height="150px" />

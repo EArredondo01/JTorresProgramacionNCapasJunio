@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ML;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -47,6 +49,17 @@ namespace PL_MVC.Controllers
                     }
                 }
 
+                int x;
+
+                bool PudoConvertir = int.TryParse(IdImagenMateria,out x);
+
+                if(PudoConvertir==true)
+                {
+                    //BL.   ImagenMateria.Delete(IdImagenMateria);
+                }
+                
+                
+
                 Session["ListaImagenes"] = imagenMateria.ImagenesMaterias;
 
             }
@@ -91,14 +104,16 @@ namespace PL_MVC.Controllers
                 materia.ImagenMateria.ImagenesMaterias.Add(materia.ImagenMateria);
             }
 
+            
+
             Session["ListaImagenes"] = materia.ImagenMateria.ImagenesMaterias;
 
-            return RedirectToAction("Form", new { IdMateria = 0 });
+            return RedirectToAction("Form", new { IdMateria = materia.IdMateria, BorrarSesion = false });
         }
 
 
         [HttpGet] // Mostrar la vista
-        public ActionResult Form(int? IdMateria) //Add, update
+        public ActionResult Form(int? IdMateria, bool? BorrarSesion) //Add, update
         {
             ML.Materia materia = new ML.Materia();
             materia.ImagenMateria = new ML.ImagenMateria();
@@ -106,13 +121,19 @@ namespace PL_MVC.Controllers
             ML.Result resultSemestres = new ML.Result();
             resultSemestres = BL.Semestre.GetAll(); // Consulto todos mis semestres
 
+            if(BorrarSesion.Value == true)
+            {
+                if (Session["ListaImagenes"] != null)
+                {
+                    Session["ListaImagenes"] = null;
+                }
+
+            }
             if (resultSemestres.Correct)
             {
                 materia.Semestre = new ML.Semestre();
                 materia.Semestre.Semestres = resultSemestres.Objects;
             }
-
-
 
             if (IdMateria > 0) //     >0   Update
             {
@@ -126,7 +147,38 @@ namespace PL_MVC.Controllers
 
                     ML.Result resultImagenes = BL.ImagenMateria.GetByIdMateria(IdMateria.Value);
                     materia.ImagenMateria = new ML.ImagenMateria();
-                    materia.ImagenMateria.ImagenesMaterias = resultImagenes.Objects;
+
+                    if (Session["ListaImagenes"] != null)
+                    {
+                        List<object> list1 = (Session["ListaImagenes"]) as List<object>; //4
+                        materia.ImagenMateria.ImagenesMaterias = resultImagenes.Objects;//2
+                        List<object> list2 = resultImagenes.Objects;
+
+                        var lista3=list1.Concat(list2).Distinct().ToList();
+
+                        List<ImagenMateria> list4 = new List<ImagenMateria>();
+
+                        foreach (ML.ImagenMateria obj in lista3)
+                        {
+                            var obj4 = list4.Find(x => x.IdImagenMateria == obj.IdImagenMateria);
+                            if(obj4 == null)
+                            {
+                                list4.Add(obj);
+                            }
+
+                        }
+
+                        Session["ListaImagenes"] = list4.Cast<object>().ToList(); 
+                        materia.ImagenMateria.ImagenesMaterias = list4.Cast<object>().ToList();
+                        return View(materia);
+
+                    }
+                    else
+                    {
+                        materia.ImagenMateria.ImagenesMaterias = resultImagenes.Objects;//2
+
+                    }
+
                 }
                 else
                 {
@@ -138,7 +190,6 @@ namespace PL_MVC.Controllers
             {
 
             }
-
 
             if (Session["ListaImagenes"] != null)
             {
