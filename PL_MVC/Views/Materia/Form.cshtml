@@ -18,8 +18,9 @@
                 </div>
 
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.Nombre)
-                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+                    @Html.LabelFor(model => model.Nombre, new {@id="lblNombre"})
+                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id="txtNombre" })
+                    <button class="btn btn-info" onclick="GetElemets()">Click</button>
                 </div>
                 <div class="col-md-12">
                     @Html.LabelFor(model => model.Creditos)
@@ -120,12 +121,7 @@
 
 </div>
 
-<script type="text/javascript">
-    function PrevisualizarImagen(event) {
-        var output = document.getElementById('imgMateria');
-        output.src = URL.createObjectURL(event.target.files[0]);
-        output.onload = function () {
-            URL.revokeObjectURL(output.src) // free memory
-        }
-    }
-</script>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/Materia/Imagen.js" type="text/javascript"></script>
+<script src="~/Scripts/Materia/DropDownListPlantelGrupo.js" type="text/javascript"></script>
+

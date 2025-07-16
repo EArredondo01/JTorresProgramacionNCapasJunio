@@ -219,6 +219,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Materia\DropDownListPlantelGrupo.js" />
+    <Content Include="Scripts\Materia\Imagen.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -260,6 +262,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Scripts\Materia\Firma\" />
+    <Folder Include="Scripts\Materia\MenuCredenciales\" />
+    <Folder Include="Scripts\Materia\TomarFoto\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
