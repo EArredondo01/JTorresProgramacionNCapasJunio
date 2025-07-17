@@ -121,6 +121,19 @@ namespace PL_MVC.Controllers
             ML.Result resultSemestres = new ML.Result();
             resultSemestres = BL.Semestre.GetAll(); // Consulto todos mis semestres
 
+
+            //Planteles
+
+            ML.Result resultPlanteles = new ML.Result();
+            resultPlanteles = BL.Plantel.GetAll();
+
+            if (resultPlanteles.Correct)
+            {
+                materia.Grupo = new ML.Grupo();
+                materia.Grupo.Plantel = new ML.Plantel();
+                materia.Grupo.Plantel.Planteles = resultPlanteles.Objects;
+            }
+
             if(BorrarSesion.Value == true)
             {
                 if (Session["ListaImagenes"] != null)
@@ -248,6 +261,14 @@ namespace PL_MVC.Controllers
         public ActionResult Delete(int IdMateria)
         {
             return RedirectToAction("GetAll");
+        }
+
+
+        public JsonResult EstadoGetByIdPlantel(int IdPlantel)
+        {
+            ML.Result resultPlantel = BL.Grupo.GetByIdPlantel(IdPlantel);
+
+            return Json(resultPlantel, JsonRequestBehavior.AllowGet);
         }
     }
 }

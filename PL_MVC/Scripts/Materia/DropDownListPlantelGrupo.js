@@ -1,23 +1,31 @@
 ﻿$(document).ready(function () {
 
-    $('#txtNombre').blur(function (e) {
-        var Resultado = $(this).val()
-        alert(Resultado);
+ 
 
+    $("#ddlPlantel").change(function () {
 
-    })
+        $("#ddlGrupo").empty();
+
+        $.ajax({
+            type: 'GET',
+            url: 'Materia/EstadoGetByIdPlantel',
+            dataType: 'json',
+            data: { IdPlantel: $("#ddlPlantel").val() },
+            success: function (grupos) {
+                $("#ddlGrupo").append('<option value="0">' + 'Seleccione una opción' + '</option>');
+                $.each(grupos, function (i, grupos) {
+                    $("#ddlGrupo").append('<option value="'
+                        + grupos.IdGrupo + '">'
+                        + grupos.Nombre + '</option>');
+                });
+            },
+            error: function (ex) {
+                alert('Failed.' + ex);
+            }
+        });
+    });
+
 
 });
 
-function MostrarTexto() {
-    var Resultado = document.getElementById("txtNombre").value //JavaScript //Id
-    var Resultado2 = $("#txtNombre").val(); //1
-
-    alert(Resultado);
-}
-
-function GetElemets() {
-    var Resultado2 = $(".form-control"); //1
-
-}
 

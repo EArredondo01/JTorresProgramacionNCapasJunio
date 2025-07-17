@@ -51,6 +51,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Grupo.cs">
+      <DependentUpon>JTorresProgramacionNCapasJunio.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GrupoGetByIdPlantel_Result.cs">
+      <DependentUpon>JTorresProgramacionNCapasJunio.tt</DependentUpon>
+    </Compile>
     <Compile Include="ImagenMateria.cs">
       <DependentUpon>JTorresProgramacionNCapasJunio.tt</DependentUpon>
     </Compile>
@@ -76,6 +82,12 @@
       <DependentUpon>JTorresProgramacionNCapasJunio.tt</DependentUpon>
     </Compile>
     <Compile Include="MateriaGetById_Result.cs">
+      <DependentUpon>JTorresProgramacionNCapasJunio.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Plantel.cs">
+      <DependentUpon>JTorresProgramacionNCapasJunio.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlantelGetAll_Result.cs">
       <DependentUpon>JTorresProgramacionNCapasJunio.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

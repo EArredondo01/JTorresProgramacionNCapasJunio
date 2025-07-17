@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="JTorresProgramacionNCapasJunioModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Grupo">
+          <Key>
+            <PropertyRef Name="IdGrupo" />
+          </Key>
+          <Property Name="IdGrupo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="20" />
+          <Property Name="IdPlantel" Type="int" />
+        </EntityType>
         <EntityType Name="ImagenMateria">
           <Key>
             <PropertyRef Name="IdImagenMateria" />
@@ -25,6 +33,13 @@
           <Property Name="Costo" Type="decimal" Precision="18" Scale="0" />
           <Property Name="IdSemestre" Type="tinyint" />
         </EntityType>
+        <EntityType Name="Plantel">
+          <Key>
+            <PropertyRef Name="IdPlantel" />
+          </Key>
+          <Property Name="IdPlantel" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="120" />
+        </EntityType>
         <EntityType Name="Semestre">
           <Key>
             <PropertyRef Name="IdSemestre" />
@@ -32,6 +47,18 @@
           <Property Name="IdSemestre" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
         </EntityType>
+        <Association Name="FK__Grupo__IdPlantel__38996AB5">
+          <End Role="Plantel" Type="Self.Plantel" Multiplicity="0..1" />
+          <End Role="Grupo" Type="Self.Grupo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plantel">
+              <PropertyRef Name="IdPlantel" />
+            </Principal>
+            <Dependent Role="Grupo">
+              <PropertyRef Name="IdPlantel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__ImagenMat__IdMat__33D4B598">
           <End Role="Materia" Type="Self.Materia" Multiplicity="0..1" />
           <End Role="ImagenMateria" Type="Self.ImagenMateria" Multiplicity="*" />
@@ -56,6 +83,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GrupoGetByIdPlantel" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdPlantel" Type="int" Mode="In" />
+        </Function>
         <Function Name="MateriaAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
           <Parameter Name="Creditos" Type="tinyint" Mode="In" />
@@ -65,10 +95,17 @@
         <Function Name="MateriaGetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdMateria" Type="int" Mode="In" />
         </Function>
+        <Function Name="PlantelGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="JTorresProgramacionNCapasJunioModelStoreContainer">
+          <EntitySet Name="Grupo" EntityType="Self.Grupo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ImagenMateria" EntityType="Self.ImagenMateria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Materia" EntityType="Self.Materia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Plantel" EntityType="Self.Plantel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Semestre" EntityType="Self.Semestre" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Grupo__IdPlantel__38996AB5" Association="Self.FK__Grupo__IdPlantel__38996AB5">
+            <End Role="Plantel" EntitySet="Plantel" />
+            <End Role="Grupo" EntitySet="Grupo" />
+          </AssociationSet>
           <AssociationSet Name="FK__ImagenMat__IdMat__33D4B598" Association="Self.FK__ImagenMat__IdMat__33D4B598">
             <End Role="Materia" EntitySet="Materia" />
             <End Role="ImagenMateria" EntitySet="ImagenMateria" />
@@ -123,6 +160,16 @@
             <End Role="Materia" EntitySet="Materias" />
             <End Role="ImagenMateria" EntitySet="ImagenMaterias" />
           </AssociationSet>
+          <EntitySet Name="Grupoes" EntityType="JTorresProgramacionNCapasJunioModel.Grupo" />
+          <EntitySet Name="Plantels" EntityType="JTorresProgramacionNCapasJunioModel.Plantel" />
+          <AssociationSet Name="FK__Grupo__IdPlantel__38996AB5" Association="JTorresProgramacionNCapasJunioModel.FK__Grupo__IdPlantel__38996AB5">
+            <End Role="Plantel" EntitySet="Plantels" />
+            <End Role="Grupo" EntitySet="Grupoes" />
+          </AssociationSet>
+          <FunctionImport Name="GrupoGetByIdPlantel" ReturnType="Collection(JTorresProgramacionNCapasJunioModel.GrupoGetByIdPlantel_Result)">
+            <Parameter Name="IdPlantel" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PlantelGetAll" ReturnType="Collection(JTorresProgramacionNCapasJunioModel.PlantelGetAll_Result)" />
         </EntityContainer>
         <ComplexType Name="MateriaGetById_Result">
           <Property Type="Int32" Name="IdMateria" Nullable="false" />
@@ -173,6 +220,44 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Grupo">
+          <Key>
+            <PropertyRef Name="IdGrupo" />
+          </Key>
+          <Property Name="IdGrupo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IdPlantel" Type="Int32" />
+          <NavigationProperty Name="Plantel" Relationship="JTorresProgramacionNCapasJunioModel.FK__Grupo__IdPlantel__38996AB5" FromRole="Grupo" ToRole="Plantel" />
+        </EntityType>
+        <EntityType Name="Plantel">
+          <Key>
+            <PropertyRef Name="IdPlantel" />
+          </Key>
+          <Property Name="IdPlantel" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Grupoes" Relationship="JTorresProgramacionNCapasJunioModel.FK__Grupo__IdPlantel__38996AB5" FromRole="Plantel" ToRole="Grupo" />
+        </EntityType>
+        <Association Name="FK__Grupo__IdPlantel__38996AB5">
+          <End Type="JTorresProgramacionNCapasJunioModel.Plantel" Role="Plantel" Multiplicity="0..1" />
+          <End Type="JTorresProgramacionNCapasJunioModel.Grupo" Role="Grupo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plantel">
+              <PropertyRef Name="IdPlantel" />
+            </Principal>
+            <Dependent Role="Grupo">
+              <PropertyRef Name="IdPlantel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="GrupoGetByIdPlantel_Result">
+          <Property Type="Int32" Name="IdGrupo" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="IdPlantel" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="PlantelGetAll_Result">
+          <Property Type="Int32" Name="IdPlantel" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="120" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -232,6 +317,40 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Grupoes">
+            <EntityTypeMapping TypeName="JTorresProgramacionNCapasJunioModel.Grupo">
+              <MappingFragment StoreEntitySet="Grupo">
+                <ScalarProperty Name="IdPlantel" ColumnName="IdPlantel" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdGrupo" ColumnName="IdGrupo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Plantels">
+            <EntityTypeMapping TypeName="JTorresProgramacionNCapasJunioModel.Plantel">
+              <MappingFragment StoreEntitySet="Plantel">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdPlantel" ColumnName="IdPlantel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GrupoGetByIdPlantel" FunctionName="JTorresProgramacionNCapasJunioModel.Store.GrupoGetByIdPlantel">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="JTorresProgramacionNCapasJunioModel.GrupoGetByIdPlantel_Result">
+                <ScalarProperty Name="IdGrupo" ColumnName="IdGrupo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdPlantel" ColumnName="IdPlantel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PlantelGetAll" FunctionName="JTorresProgramacionNCapasJunioModel.Store.PlantelGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="JTorresProgramacionNCapasJunioModel.PlantelGetAll_Result">
+                <ScalarProperty Name="IdPlantel" ColumnName="IdPlantel" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

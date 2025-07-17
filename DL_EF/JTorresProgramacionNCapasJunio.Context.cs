@@ -30,6 +30,8 @@ namespace DL_EF
         public virtual DbSet<Materia> Materias { get; set; }
         public virtual DbSet<Semestre> Semestres { get; set; }
         public virtual DbSet<ImagenMateria> ImagenMaterias { get; set; }
+        public virtual DbSet<Grupo> Grupoes { get; set; }
+        public virtual DbSet<Plantel> Plantels { get; set; }
     
         public virtual int MateriaAdd(string nombre, Nullable<byte> creditos, Nullable<decimal> costo)
         {
@@ -60,6 +62,20 @@ namespace DL_EF
         public virtual ObjectResult<MateriaGetAll_Result> MateriaGetAll()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MateriaGetAll_Result>("MateriaGetAll");
+        }
+    
+        public virtual ObjectResult<GrupoGetByIdPlantel_Result> GrupoGetByIdPlantel(Nullable<int> idPlantel)
+        {
+            var idPlantelParameter = idPlantel.HasValue ?
+                new ObjectParameter("IdPlantel", idPlantel) :
+                new ObjectParameter("IdPlantel", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GrupoGetByIdPlantel_Result>("GrupoGetByIdPlantel", idPlantelParameter);
+        }
+    
+        public virtual ObjectResult<PlantelGetAll_Result> PlantelGetAll()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PlantelGetAll_Result>("PlantelGetAll");
         }
     }
 }

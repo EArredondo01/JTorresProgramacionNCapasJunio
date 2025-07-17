@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-    public class Grupo
+    public class Plantel
     {
-        public static ML.Result GetByIdPlantel(int IdPlantel)
+        public static ML.Result GetAll()
         {
 
             ML.Result result = new ML.Result(); //instancia-objeto
@@ -19,12 +19,11 @@ namespace BL
                 {
 
                     //select ____ from Materia //pluralize
-                    var resultQuery = (from grupoDB in context.Grupoes
-                                       where grupoDB.IdPlantel == IdPlantel
+                    var resultQuery = (from plantelDB in context.Plantels
                                        select new
                                        {
-                                           grupoDB.IdGrupo,
-                                           grupoDB.Nombre,
+                                           plantelDB.IdPlantel,
+                                           plantelDB.Nombre,
                                        }).ToList();
 
 
@@ -32,12 +31,12 @@ namespace BL
                     {
                         result.Objects = new List<object>();
 
-                        foreach (var grupoDB in resultQuery)
+                        foreach (var plantelDB in resultQuery)
                         {
-                            ML.Grupo grupo = new ML.Grupo();
-                            grupo.IdGrupo = grupoDB.IdGrupo;
-                            grupo.Nombre = grupoDB.Nombre;
-                            result.Objects.Add(grupo);
+                            ML.Plantel plantel = new ML.Plantel();
+                            plantel.IdPlantel= plantelDB.IdPlantel;
+                            plantel.Nombre = plantelDB.Nombre;
+                            result.Objects.Add(plantel);
                         }
 
                         result.Correct = true;

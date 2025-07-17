@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace ML
 {
-    public class Grupo
+    public class Plantel
     {
-        public int IdGrupo { get; set; }
+        public int IdPlantel { get; set; }
         public string Nombre { get; set; }
-        public ML.Plantel Plantel { get; set; }
-        public List<object> Grupos { get; set; }
+        public List<object> Planteles { get; set; }
 
     }
 }

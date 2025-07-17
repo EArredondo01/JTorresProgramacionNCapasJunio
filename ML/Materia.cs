@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ML
 {
-    public class Materia
+    public class Materia //Usuario
     {
      
         public int IdMateria { get; set; }
@@ -16,6 +16,14 @@ namespace ML
         public List<object> Materias { get; set; }
         public ML.Semestre Semestre { get; set; }
         public ML.ImagenMateria ImagenMateria { get; set; }
+
+        //Direccion             //Grupo
+        //Dentro de Direccion  va el ML.Colonia
+        //Dentro del ML.Colonia va el ML.Municipio
+        //Dentro del ML.Municipio va el ML.Estado
+
+        public ML.Grupo Grupo { get; set; }
+        
 
     }
 }
