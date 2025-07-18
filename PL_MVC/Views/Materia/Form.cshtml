@@ -39,13 +39,19 @@
                     @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Seleccione un semestre", new { @class = "form-control" })
 
                 </div>
+                <select >
+                    <option value="value">text</option>
+                </select>
+
 
                 <div class="col-md-12 mt-2">
                     @Html.LabelFor(model => model.Grupo.Plantel)
-                    @Html.DropDownListFor(model => model.Grupo.Plantel.IdPlantel, new SelectList(Model.Grupo.Plantel.Planteles, "IdPlantel", "Nombre"), "Seleccione un plantel", new { @class = "form-control", @id = "ddlPlantel" })
+                                                        
+                    @Html.DropDownListFor(model => model.Grupo.Plantel.IdPlantel, new SelectList(Model.Grupo.Plantel.Planteles, "IdPlantel", "Nombre"), "Seleccione un plantel", new { @class = "form-control", @id = "ddlPlantel"})
+
                     @*model.Direccion.Colonia.Municipio.Estado.IdEstado*@
                     @Html.LabelFor(model => model.Grupo)
-                    @Html.DropDownListFor(model => model.Grupo, new SelectList(string.Empty, "IdPlantel", "Nombre"), "Seleccione un plantel", new { @class = "form-control",@id="ddlGrupo" })
+                    @Html.DropDownListFor(model => model.Grupo.IdGrupo, new SelectList(string.Empty, "IdPlantel", "Nombre"), "Seleccione un Grupo", new { @class = "form-control",@id="ddlGrupo" })
 
                 </div>
 
@@ -70,7 +76,7 @@
             @Html.HiddenFor(model=> model.IdMateria)
             <div class="col-md-4">
                 <div class="col-md-6 mt-2">
-                    <img src="~/Img/UserDefault.png" id="imgMateria" width="150px" height="150px" />
+                    <img src="~/Img/UserDefault.png" id="imgMateria" width="150" height="150" />
                     <input type="file" name="imgMateriaInput" onchange="PrevisualizarImagen(event)" />
                     @Html.TextBoxFor(model => model.ImagenMateria.Descripcion, new { placeholder = "Ingresa la descripción de la imagen", @class = "form-control" })
                 </div>
@@ -97,7 +103,7 @@
                                     <th>@materiaImagen.Nombre</th>
                                     <td>@materiaImagen.Descripcion</td>
                                     <td>
-                                        <img height="200px" width="200px" src="data:image/png;base64,@Convert.ToBase64String(materiaImagen.Imagen)" />
+                                        <img height="200" width="200" src="data:image/png;base64,@Convert.ToBase64String(materiaImagen.Imagen)" />
                                     </td>
 
                                     <td>

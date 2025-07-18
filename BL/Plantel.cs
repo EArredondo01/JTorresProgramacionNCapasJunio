@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-    public class Plantel
+    public class Plantel  
     {
         public static ML.Result GetAll()
         {
@@ -17,7 +17,6 @@ namespace BL
             {
                 using (DL_EF.JTorresProgramacionNCapasJunioEntities context = new DL_EF.JTorresProgramacionNCapasJunioEntities())
                 {
-
                     //select ____ from Materia //pluralize
                     var resultQuery = (from plantelDB in context.Plantels
                                        select new

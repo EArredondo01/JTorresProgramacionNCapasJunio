@@ -263,7 +263,7 @@ namespace PL_MVC.Controllers
             return RedirectToAction("GetAll");
         }
 
-
+        [HttpGet]
         public JsonResult EstadoGetByIdPlantel(int IdPlantel)
         {
             ML.Result resultPlantel = BL.Grupo.GetByIdPlantel(IdPlantel);
