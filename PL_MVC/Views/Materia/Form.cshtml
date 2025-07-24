@@ -7,10 +7,10 @@
 
 <div class="container">
 
-    <div class="row">
-        @using (Html.BeginForm("Form", "Materia", FormMethod.Post, new { @enctype = "multipart/form-data" }))
-        {
-            //arreglo de bytes -> varbinary
+
+    @using (Html.BeginForm("Form", "Materia", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    {
+        <div class="row">
             <div class="col-md-4">
                 <div class="col-md-12 d-none">
                     @Html.LabelFor(model => model.IdMateria, new { @class = "" })
@@ -18,17 +18,14 @@
                 </div>
 
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.Nombre, new {@id="lblNombre"})
-                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id="txtNombre" })
-                    <button class="btn btn-info" onclick="GetElemets()">Click</button>
+                    @Html.LabelFor(model => model.Nombre, new { @id = "lblNombre" })
+                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre" })
                 </div>
                 <div class="col-md-12">
                     @Html.LabelFor(model => model.Creditos)
                     @Html.TextBoxFor(model => model.Creditos, "{0:#.#}", new { @class = "form-control" })
                 </div>
 
-            </div>
-            <div class="col-md-4">
                 <div class="col-md-12 mt-2">
                     @Html.LabelFor(model => model.Costo)
                     @Html.TextBoxFor(model => model.Costo, "{0:#.#}", new { @class = "form-control" })
@@ -39,104 +36,109 @@
                     @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Seleccione un semestre", new { @class = "form-control" })
 
                 </div>
-                <select >
-                    <option value="value">text</option>
-                </select>
 
 
                 <div class="col-md-12 mt-2">
                     @Html.LabelFor(model => model.Grupo.Plantel)
-                                                        
-                    @Html.DropDownListFor(model => model.Grupo.Plantel.IdPlantel, new SelectList(Model.Grupo.Plantel.Planteles, "IdPlantel", "Nombre"), "Seleccione un plantel", new { @class = "form-control", @id = "ddlPlantel"})
+
+                    @*@Html.DropDownListFor(model => model.Grupo.Plantel.IdPlantel, new SelectList(Model.Grupo.Plantel.Planteles, "IdPlantel", "Nombre"), "Seleccione un plantel", new { @class = "form-control", @id = "ddlPlantel"})*@
 
                     @*model.Direccion.Colonia.Municipio.Estado.IdEstado*@
                     @Html.LabelFor(model => model.Grupo)
-                    @Html.DropDownListFor(model => model.Grupo.IdGrupo, new SelectList(string.Empty, "IdPlantel", "Nombre"), "Seleccione un Grupo", new { @class = "form-control",@id="ddlGrupo" })
+                    @*@Html.DropDownListFor(model => model.Grupo.IdGrupo, new SelectList(string.Empty, "IdPlantel", "Nombre"), "Seleccione un Grupo", new { @class = "form-control",@id="ddlGrupo" })*@
 
-                </div>
-
-
-            </div>
-            <div class="row mt-3">
-                <div class="col-md-6">
-
-                    <button type="submit" class="btn btn-success">Guardar</button>
-                </div>
-
-                <div class="col-md-6">
-                    @Html.ActionLink("Regresar", "GetAll", "Materia", new { @class = "btn btn-danger" })
                 </div>
             </div>
 
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-4 offset-4">
+                        <img src="~/Img/UserDefault.png" id="imgMateria" width="150" height="150" />
+                        <input type="file" name="imgMateriaInput" onchange="PrevisualizarImagen(event)" />
+                        @Html.TextBoxFor(model => model.ImagenMateria.Descripcion, new { placeholder = "Ingresa la descripción de la imagen", @class = "form-control" })
 
-        }
-
-        @using (Html.BeginForm("AddImagen", "Materia", FormMethod.Post, new { @enctype = "multipart/form-data" }))
-        {
-            @Html.HiddenFor(model=> model.IdMateria)
-            <div class="col-md-4">
-                <div class="col-md-6 mt-2">
-                    <img src="~/Img/UserDefault.png" id="imgMateria" width="150" height="150" />
-                    <input type="file" name="imgMateriaInput" onchange="PrevisualizarImagen(event)" />
-                    @Html.TextBoxFor(model => model.ImagenMateria.Descripcion, new { placeholder = "Ingresa la descripción de la imagen", @class = "form-control" })
+                    </div>
                 </div>
 
-                @if (Model.ImagenMateria.ImagenesMaterias != null)
-                {
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>IdImagenMateria</th>
-                                <th>Nombre</th>
-                                <th>Descripción</th>
-                                <th>Archivo</th>
-                                <th>Eliminar</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                            @foreach (ML.ImagenMateria materiaImagen in Model.ImagenMateria.ImagenesMaterias)
-                            {
+                <div class="row">
+                    @if (Model.ImagenMateria.ImagenesMaterias != null)
+                    {
+                        <table class="table table-hover">
+                            <thead>
                                 <tr>
-                                    <th>@materiaImagen.IdImagenMateria</th>
-                                    <th>@materiaImagen.Nombre</th>
-                                    <td>@materiaImagen.Descripcion</td>
-                                    <td>
-                                        <img height="200" width="200" src="data:image/png;base64,@Convert.ToBase64String(materiaImagen.Imagen)" />
-                                    </td>
-
-                                    <td>
-                                        <a href="@Url.Action("DeleteImagen","Materia", new { IdImagenMateria = materiaImagen.IdImagenMateria })" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar la imagen')">
-                                            <i class="bi bi-trash"></i>
-                                            Eliminar
-                                        </a>
-                                    </td>
+                                    <th>IdImagenMateria</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Archivo</th>
+                                    <th>Eliminar</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
-                }
+                            </thead>
 
+                            <tbody>
 
-            </div>
+                                @foreach (ML.ImagenMateria materiaImagen in Model.ImagenMateria.ImagenesMaterias)
+                                {
+                                    <tr>
+                                        <th>@materiaImagen.IdImagenMateria</th>
+                                        <th>@materiaImagen.Nombre</th>
+                                        <td>@materiaImagen.Descripcion</td>
+                                        <td>
+                                            <img height="200" width="200" src="data:image/png;base64,@Convert.ToBase64String(materiaImagen.Imagen)" />
+                                        </td>
 
-            <div class="row mt-3">
-                <div class="col-md-6">
+                                        <td>
+                                            <a href="@Url.Action("DeleteImagen","Materia", new { IdImagenMateria = materiaImagen.IdImagenMateria })" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar la imagen')">
+                                                <i class="bi bi-trash"></i>
+                                                Eliminar
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
 
-                    <button type="submit" class="btn btn-info">Subir Imagen</button>
                 </div>
+
+
+                <div class="row">
+                    <div class="col-1 offset-5">
+                        <button type="submit" value="CargarImagen" name="Action" class="btn btn-info">Cargar</button>
+                    </div>
+
+
+                </div>
+
+
+
             </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+                <button type="submit" value="GuardarUsuario" name="Action" class="btn btn-success">Guardar</button>
 
-        }
+            </div>
+            <div class="col-md-1">
+                @Html.ActionLink("Regresar", "GetAll", "Materia", new { @class = "btn btn-danger" })
+            </div>
+        </div>
 
 
-    </div>
+    }
+
+    @using (Html.BeginForm("AddImagen", "Materia", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    {
 
 
+    }
 
 
 </div>
+
+
+
+
+    </div>
 
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script src="~/Scripts/Materia/Imagen.js" type="text/javascript"></script>
